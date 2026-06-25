@@ -11,6 +11,8 @@ import {
   deleteIssueSchema,
 } from './issue.validation';
 import * as issueController from './issue.controller';
+import commentRoutes from '../comments/comment.routes';
+
 
 /**
  * Mounted at /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues
@@ -59,5 +61,7 @@ router.delete(
   requirePermission(Permission.ISSUE_DELETE),
   issueController.deleteIssue
 );
+
+router.use('/:issueId/comments', commentRoutes);
 
 export default router;
