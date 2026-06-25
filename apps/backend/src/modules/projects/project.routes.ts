@@ -15,6 +15,7 @@ import {
 
 import * as projectController from './project.controller';
 import sprintRoutes from '../sprints/sprint.routes';
+import issueRoutes from '../issues/issue.routes';
 
 
 /**
@@ -83,6 +84,11 @@ router.delete(
 router.use(
   '/:projectId/sprints',
   sprintRoutes
+);
+
+router.use(
+  '/:projectId/issues',
+  issueRoutes
 );
 
 export default router;
