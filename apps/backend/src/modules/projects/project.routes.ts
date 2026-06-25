@@ -14,6 +14,8 @@ import {
 } from './project.validation';
 
 import * as projectController from './project.controller';
+import sprintRoutes from '../sprints/sprint.routes';
+
 
 /**
  * Mounted at:
@@ -76,6 +78,11 @@ router.delete(
   validate(deleteProjectSchema),
   requirePermission(Permission.PROJECT_DELETE),
   projectController.deleteProject
+);
+
+router.use(
+  '/:projectId/sprints',
+  sprintRoutes
 );
 
 export default router;

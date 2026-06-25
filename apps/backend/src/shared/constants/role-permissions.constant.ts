@@ -16,7 +16,7 @@ export enum Permission {
   WORKSPACE_CREATE = 'WORKSPACE_CREATE',
   WORKSPACE_UPDATE = 'WORKSPACE_UPDATE',
   WORKSPACE_DELETE = 'WORKSPACE_DELETE',
-  wORKSPACE_VIEW = 'WORKSPACE_VIEW',
+  WORKSPACE_VIEW = 'WORKSPACE_VIEW',
 
   // Project
   PROJECT_CREATE = 'PROJECT_CREATE',
@@ -39,7 +39,6 @@ export enum Permission {
   ANALYTICS_VIEW = 'ANALYTICS_VIEW',
   PROJECT_VIEW = 'PROJECT_VIEW',
   ISSUE_VIEW = 'ISSUE_VIEW',
-  WORKSPACE_VIEW = 'WORKSPACE_VIEW',
 }
 
 import { OrgRole } from '../enums/role.enum';
@@ -80,6 +79,7 @@ export const ROLE_PERMISSIONS: Record<OrgRole, Permission[]> = {
     Permission.ISSUE_COMMENT,
     Permission.ISSUE_ATTACHMENT_UPLOAD,
     Permission.ANALYTICS_VIEW,
+    Permission.ISSUE_VIEW,
   ],
 
   [OrgRole.PROJECT_MANAGER]: [
@@ -94,6 +94,8 @@ export const ROLE_PERMISSIONS: Record<OrgRole, Permission[]> = {
     Permission.ISSUE_COMMENT,
     Permission.ISSUE_ATTACHMENT_UPLOAD,
     Permission.ANALYTICS_VIEW,
+    Permission.PROJECT_VIEW,
+    Permission.ISSUE_VIEW,
   ],
 
   [OrgRole.DEVELOPER]: [
@@ -101,6 +103,8 @@ export const ROLE_PERMISSIONS: Record<OrgRole, Permission[]> = {
     Permission.ISSUE_UPDATE,
     Permission.ISSUE_COMMENT,
     Permission.ISSUE_ATTACHMENT_UPLOAD,
+    Permission.PROJECT_VIEW,
+    Permission.ISSUE_VIEW,
   ],
 
   [OrgRole.QA]: [
@@ -109,6 +113,8 @@ export const ROLE_PERMISSIONS: Record<OrgRole, Permission[]> = {
     Permission.ISSUE_UPDATE,
     Permission.ISSUE_COMMENT,
     Permission.ISSUE_ATTACHMENT_UPLOAD,
+    Permission.PROJECT_VIEW,
+    Permission.ISSUE_VIEW,
   ],
 
   [OrgRole.VIEWER]: [
