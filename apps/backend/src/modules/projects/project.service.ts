@@ -7,9 +7,7 @@ import { ProjectRole } from '../../shared/enums/project-role.enum';
 import { ConflictError, NotFoundError } from '../../errors';
 import { CreateProjectInput, UpdateProjectInput } from './project.validation';
 
-/**
- * Verifies if a workspace exists and belongs to the given organization.
- */
+ 
 async function verifyWorkspaceBelongsToOrg(orgId: string, workspaceId: string): Promise<void> {
   const workspaceExists = await Workspace.exists({
     _id: new Types.ObjectId(workspaceId),
@@ -21,12 +19,7 @@ async function verifyWorkspaceBelongsToOrg(orgId: string, workspaceId: string): 
   }
 }
 
-/**
- * Creates a project and automatically registers the creator as PROJECT_MANAGER.
- * 
- * Future Improvement:
- * Use MongoDB transaction/session when creating Project + ProjectMember to ensure atomicity.
- */
+ 
 export async function createProject(
   orgId: string,
   workspaceId: string,
@@ -64,9 +57,7 @@ export async function createProject(
   return project;
 }
 
-/**
- * Lists projects under a specific workspace within an organization.
- */
+ 
 export async function listProjects(
   orgId: string,
   workspaceId: string,
@@ -105,10 +96,7 @@ export async function listProjects(
     limit,
   };
 }
-
-/**
- * Retrieves a single project by its ID, verifying it belongs to the workspace and organization.
- */
+ 
 export async function getProjectById(orgId: string, workspaceId: string, projectId: string) {
   await verifyWorkspaceBelongsToOrg(orgId, workspaceId);
 
@@ -127,10 +115,7 @@ export async function getProjectById(orgId: string, workspaceId: string, project
   return project;
 }
 
-/**
- * Updates project details (name, key, description).
- * Checks key uniqueness within the organization if the key is updated.
- */
+ 
 export async function updateProject(
   orgId: string,
   workspaceId: string,
@@ -139,7 +124,7 @@ export async function updateProject(
 ) {
   await verifyWorkspaceBelongsToOrg(orgId, workspaceId);
 
-  // We fetch the document instead of lean to call .save()
+   
   const project = await Project.findOne({
     _id: new Types.ObjectId(projectId),
     organizationId: new Types.ObjectId(orgId),
@@ -180,10 +165,7 @@ export async function updateProject(
   return project;
 }
 
-/**
- * Soft deletes a project.
- * Note: ProjectMember records are NOT soft-deleted.
- */
+ 
 export async function deleteProject(orgId: string, workspaceId: string, projectId: string): Promise<void> {
   await verifyWorkspaceBelongsToOrg(orgId, workspaceId);
 

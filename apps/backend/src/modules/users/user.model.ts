@@ -34,8 +34,7 @@ const userSchema = new Schema<IUser>(
       trim: true,
       index: true,
     },
-    // select: false -> never returned by default queries.
-    // Must explicitly .select('+passwordHash') when needed for auth.
+ 
     passwordHash: {
       type: String,
       required: true,

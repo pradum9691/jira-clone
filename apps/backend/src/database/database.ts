@@ -2,12 +2,7 @@ import mongoose from 'mongoose';
 import { env } from '../config/env';
 import { logger } from '../shared/utils/logger';
 
-/**
- * Connects to MongoDB using the validated MONGO_URI.
- *
- * If the initial connection fails, the process exits because
- * the application cannot function without a database.
- */
+
 export async function connectDatabase(): Promise<void> {
   mongoose.set('strictQuery', true);
 
@@ -35,11 +30,6 @@ export async function connectDatabase(): Promise<void> {
   }
 }
 
-/**
- * Gracefully closes the MongoDB connection.
- *
- * Called from the graceful shutdown handler in server.ts.
- */
 export async function disconnectDatabase(): Promise<void> {
   await mongoose.connection.close();
   logger.info('MongoDB connection closed');

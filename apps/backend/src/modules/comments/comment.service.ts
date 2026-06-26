@@ -9,9 +9,7 @@ import {
   UpdateCommentInput,
 } from './comment.validation';
 
-/**
- * Verify project belongs to organization
- */
+ 
 async function verifyProjectBelongsToOrg(
   orgId: string,
   projectId: string,
@@ -25,10 +23,7 @@ async function verifyProjectBelongsToOrg(
     throw new NotFoundError('Project not found');
   }
 }
-
-/**
- * Verify issue belongs to project
- */
+ 
 async function verifyIssueBelongsToProject(
   orgId: string,
   projectId: string,
@@ -45,9 +40,7 @@ async function verifyIssueBelongsToProject(
   }
 }
 
-/**
- * Fetch comment lean (read-only)
- */
+ 
 async function getCommentByIdLean(
   orgId: string,
   projectId: string,
@@ -73,10 +66,7 @@ async function getCommentByIdLean(
   return comment;
 }
 
-/**
- * Fetch comment document for mutations
- * NO POPULATE HERE
- */
+ 
 async function getCommentById(
   orgId: string,
   projectId: string,
@@ -100,9 +90,7 @@ async function getCommentById(
   return comment;
 }
 
-/**
- * Create Comment
- */
+ 
 export async function createComment(
   orgId: string,
   projectId: string,
@@ -134,10 +122,7 @@ export async function createComment(
 
   return populatedComment;
 }
-
-/**
- * List Comments
- */
+ 
 export async function listComments(
   orgId: string,
   projectId: string,
@@ -172,10 +157,7 @@ export async function listComments(
     limit,
   };
 }
-
-/**
- * Get Single Comment
- */
+ 
 export async function getComment(
   orgId: string,
   projectId: string,
@@ -186,10 +168,7 @@ export async function getComment(
   return getCommentByIdLean(orgId, projectId, issueId, commentId);
 }
 
-
-/**
- * Update Comment (Author only)
- */
+ 
 export async function updateComment(
   orgId: string,
   projectId: string,
@@ -226,10 +205,7 @@ export async function updateComment(
   return populatedComment;
 }
 
-/**
- * Delete Comment
- * Author OR ORG_ADMIN OR SUPER_ADMIN
- */
+ 
 export async function deleteComment(
   orgId: string,
   projectId: string,

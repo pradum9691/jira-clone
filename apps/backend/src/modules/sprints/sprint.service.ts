@@ -12,9 +12,7 @@ import {
   UpdateSprintInput,
 } from './sprint.validation';
 
-/**
- * Verify project belongs to organization
- */
+ 
 async function verifyProjectBelongsToOrg(
   orgId: string,
   projectId: string
@@ -29,10 +27,7 @@ async function verifyProjectBelongsToOrg(
   }
 }
 
-/**
- * Read-only sprint fetch
- * Uses lean() for better performance
- */
+ 
 async function getSprintByIdLean(
   orgId: string,
   projectId: string,
@@ -55,9 +50,7 @@ async function getSprintByIdLean(
   return sprint;
 }
 
-/**
- * Document fetch for mutations
- */
+ 
 async function getSprintById(
   orgId: string,
   projectId: string,
@@ -78,9 +71,7 @@ async function getSprintById(
   return sprint;
 }
 
-/**
- * Create Sprint
- */
+ 
 export async function createSprint(
   orgId: string,
   projectId: string,
@@ -106,9 +97,7 @@ export async function createSprint(
   return sprint;
 }
 
-/**
- * List Sprints
- */
+ 
 export async function listSprints(
   orgId: string,
   projectId: string,
@@ -146,9 +135,7 @@ export async function listSprints(
   };
 }
 
-/**
- * Get Sprint Details
- */
+ 
 export async function getSprint(
   orgId: string,
   projectId: string,
@@ -161,9 +148,7 @@ export async function getSprint(
   );
 }
 
-/**
- * Update Sprint
- */
+ 
 export async function updateSprint(
   orgId: string,
   projectId: string,
@@ -202,10 +187,7 @@ export async function updateSprint(
 
   return sprint;
 }
-
-/**
- * Delete Sprint
- */
+ 
 export async function deleteSprint(
   orgId: string,
   projectId: string,
@@ -227,10 +209,7 @@ export async function deleteSprint(
 
   return sprint;
 }
-
-/**
- * Start Sprint
- */
+ 
 export async function startSprint(
   orgId: string,
   projectId: string,
@@ -271,9 +250,7 @@ export async function startSprint(
   return sprint;
 }
 
-/**
- * Complete Sprint
- */
+ 
 export async function completeSprint(
   orgId: string,
   projectId: string,

@@ -8,10 +8,10 @@ import { IssuePriority } from "../../shared/enums/issue-priority.enum";
 import { IssueType } from "../../shared/enums/issue-type.enum";
 import { BadRequestError, NotFoundError } from "../../errors";
 import { CreateIssueInput, UpdateIssueInput } from "./issue.validation";
+import { createActivity } from '../activities/activity.service';
+import { ActivityAction } from '../../shared/enums/activity-action.enum';
 
-/**
- * Verify project belongs to organization
- */
+ 
 async function verifyProjectBelongsToOrg(orgId: string, projectId: string) {
   const exists = await Project.exists({
     _id: new Types.ObjectId(projectId),
@@ -23,9 +23,7 @@ async function verifyProjectBelongsToOrg(orgId: string, projectId: string) {
   }
 }
 
-/**
- * Read-only issue fetch
- */
+ 
 async function getIssueByIdLean(
   orgId: string,
   projectId: string,
@@ -51,9 +49,7 @@ async function getIssueByIdLean(
   return issue;
 }
 
-/**
- * Document fetch for mutations
- */
+ 
 async function getIssueById(orgId: string, projectId: string, issueId: string) {
   await verifyProjectBelongsToOrg(orgId, projectId);
 
@@ -74,9 +70,7 @@ async function getIssueById(orgId: string, projectId: string, issueId: string) {
   return issue;
 }
 
-/**
- * Create Issue
- */
+ 
 export async function createIssue(
   orgId: string,
   projectId: string,
@@ -154,21 +148,27 @@ export async function createIssue(
   });
 
   const populatedIssue = await Issue.findById(issue._id)
-    .populate("assigneeId", "name email avatarUrl")
-    .populate("reporterId", "name email avatarUrl")
-    .populate("createdById", "name email avatarUrl")
-    .populate("sprintId", "name status");
+  .populate("assigneeId", "name email avatarUrl")
+  .populate("reporterId", "name email avatarUrl")
+  .populate("createdById", "name email avatarUrl")
+  .populate("sprintId", "name status");
 
-  if (!populatedIssue) {
-    throw new NotFoundError("Issue not found");
-  }
-
-  return populatedIssue;
+if (!populatedIssue) {
+  throw new NotFoundError("Issue not found");
+}
+console.log("===== BEFORE CREATE ACTIVITY =====");
+await createActivity(
+  orgId,
+  projectId,
+  issue._id.toString(),
+  creatorId,
+  ActivityAction.ISSUE_CREATED,
+);
+console.log("===== AFTER CREATE ACTIVITY =====");
+return populatedIssue;
 }
 
-/**
- * List Issues
- */
+ 
 export async function listIssues(
   orgId: string,
   projectId: string,
@@ -235,9 +235,7 @@ export async function listIssues(
   };
 }
 
-/**
- * Get Issue
- */
+ 
 export async function getIssue(
   orgId: string,
   projectId: string,
@@ -246,9 +244,7 @@ export async function getIssue(
   return await getIssueByIdLean(orgId, projectId, issueId);
 }
 
-/**
- * Update Issue
- */
+ 
 export async function updateIssue(
   orgId: string,
   projectId: string,
@@ -342,10 +338,7 @@ export async function updateIssue(
 
   return populatedIssue;
 }
-
-/**
- * Delete Issue
- */
+ 
 export async function deleteIssue(
   orgId: string,
   projectId: string,

@@ -66,10 +66,7 @@ const workspaceSchema = new Schema<IWorkspace>(
 
 workspaceSchema.plugin(softDeletePlugin);
 
-/**
- * Slug must be unique within an organization.
- * Soft-deleted workspaces do not block reuse.
- */
+ 
 workspaceSchema.index(
   {
     organizationId: 1,
@@ -83,10 +80,7 @@ workspaceSchema.index(
   }
 );
 
-/**
- * Workspace name must be unique within an organization.
- * Soft-deleted workspaces do not block reuse.
- */
+ 
 workspaceSchema.index(
   {
     organizationId: 1,
@@ -100,17 +94,12 @@ workspaceSchema.index(
   }
 );
 
-/**
- * Optimizes organization workspace listings.
- */
+ 
 workspaceSchema.index({
   organizationId: 1,
   createdAt: -1,
 });
-
-/**
- * Hide internal fields from API responses.
- */
+ 
 workspaceSchema.set('toJSON', {
   transform: (_doc, ret) => {
     delete (ret as any).isDeleted;

@@ -13,15 +13,10 @@ import {
 } from './attachment.validation';
 import * as attachmentController from './attachment.controller';
 
-/**
- * Mounted at /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/attachments
- * mergeParams: true — gives access to route params from parent routers
- */
 const router = Router({ mergeParams: true });
 
 router.use(authenticate);
 
-// POST / — Upload attachment (ISSUE_ATTACHMENT_UPLOAD permission)
 router.post(
   '/',
   uploadAttachment.single('file'),
@@ -30,7 +25,6 @@ router.post(
   attachmentController.uploadAttachment
 );
 
-// GET / — List attachments (ISSUE_ATTACHMENT_UPLOAD permission)
 router.get(
   '/',
   validate(listAttachmentsSchema),
@@ -38,7 +32,6 @@ router.get(
   attachmentController.listAttachments
 );
 
-// GET /:attachmentId — Get single attachment (ISSUE_ATTACHMENT_UPLOAD permission)
 router.get(
   '/:attachmentId',
   validate(getAttachmentSchema),
@@ -46,7 +39,6 @@ router.get(
   attachmentController.getAttachment
 );
 
-// GET /:attachmentId/download — Download attachment (ISSUE_ATTACHMENT_UPLOAD permission)
 router.get(
   '/:attachmentId/download',
   validate(downloadAttachmentSchema),
@@ -54,7 +46,6 @@ router.get(
   attachmentController.downloadAttachment
 );
 
-// DELETE /:attachmentId — Delete attachment (ISSUE_ATTACHMENT_UPLOAD permission)
 router.delete(
   '/:attachmentId',
   validate(deleteAttachmentSchema),

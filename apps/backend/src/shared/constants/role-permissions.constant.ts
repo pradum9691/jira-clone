@@ -1,33 +1,23 @@
-/**
- * Permission keys.
- *
- * Mirrors the future `permissions` collection's `name` field.
- * Used by the permission-check middleware/service.
- */
 export enum Permission {
-  // Organization
+  
   ORG_VIEW = 'ORG_VIEW',
   ORG_MANAGE = 'ORG_MANAGE',
   ORG_BILLING_MANAGE = 'ORG_BILLING_MANAGE',
   ORG_MEMBER_INVITE = 'ORG_MEMBER_INVITE',
   ORG_MEMBER_REMOVE = 'ORG_MEMBER_REMOVE',
 
-  // Workspace
   WORKSPACE_CREATE = 'WORKSPACE_CREATE',
   WORKSPACE_UPDATE = 'WORKSPACE_UPDATE',
   WORKSPACE_DELETE = 'WORKSPACE_DELETE',
   WORKSPACE_VIEW = 'WORKSPACE_VIEW',
 
-  // Project
   PROJECT_CREATE = 'PROJECT_CREATE',
   PROJECT_UPDATE = 'PROJECT_UPDATE',
   PROJECT_DELETE = 'PROJECT_DELETE',
   PROJECT_MEMBER_MANAGE = 'PROJECT_MEMBER_MANAGE',
 
-  // Sprint
   SPRINT_MANAGE = 'SPRINT_MANAGE',
 
-  // Issue
   ISSUE_CREATE = 'ISSUE_CREATE',
   ISSUE_UPDATE = 'ISSUE_UPDATE',
   ISSUE_DELETE = 'ISSUE_DELETE',
@@ -35,7 +25,6 @@ export enum Permission {
   ISSUE_COMMENT = 'ISSUE_COMMENT',
   ISSUE_ATTACHMENT_UPLOAD = 'ISSUE_ATTACHMENT_UPLOAD',
 
-  // Analytics
   ANALYTICS_VIEW = 'ANALYTICS_VIEW',
   PROJECT_VIEW = 'PROJECT_VIEW',
   ISSUE_VIEW = 'ISSUE_VIEW',
@@ -43,18 +32,9 @@ export enum Permission {
 
 import { OrgRole } from '../enums/role.enum';
 
-/**
- * Hardcoded Role -> Permission map (Phase 1-3).
- *
- * This is the single source of truth for what each role can do.
- * It is also used to seed the `roles` / `permissions` /
- * `role_permissions` collections. When dynamic, per-organization
- * custom roles are needed later, only the permission-lookup
- * function in the auth/permission service changes (this map ->
- * DB/cache lookup) — controllers and middleware stay the same.
- */
+ 
 export const ROLE_PERMISSIONS: Record<OrgRole, Permission[]> = {
-  [OrgRole.SUPER_ADMIN]: Object.values(Permission), // everything
+  [OrgRole.SUPER_ADMIN]: Object.values(Permission), 
 
   [OrgRole.ORG_ADMIN]: [
     Permission.ORG_VIEW,
@@ -126,9 +106,7 @@ export const ROLE_PERMISSIONS: Record<OrgRole, Permission[]> = {
   ],
 };
 
-/**
- * Checks whether a given role has a given permission.
- */
+ 
 export function hasPermission(role: OrgRole, permission: Permission): boolean {
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
 }

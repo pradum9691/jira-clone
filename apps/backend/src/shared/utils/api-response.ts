@@ -1,24 +1,5 @@
 import { Response } from 'express';
 
-/**
- * Standardized success response shape (matches PROJECT_PLAN.md §15):
- *
- * {
- *   "success": true,
- *   "data": ...,
- *   "pagination": { ... },   // only present for paginated list endpoints
- *   "message": "..."
- * }
- *
- * Error responses use the same `success` flag and are produced by
- * the global error handler (middlewares/error-handler.middleware.ts):
- *
- * {
- *   "success": false,
- *   "message": "...",
- *   "errors": []
- * }
- */
 
 export interface PaginationMeta {
   page: number;
@@ -50,10 +31,7 @@ export function sendResponse<T>(res: Response, options: SendResponseOptions<T> =
   return res.status(statusCode).json(body);
 }
 
-/**
- * Builds a pagination meta object from raw query/result numbers.
- * Use together with sendResponse() for list endpoints.
- */
+ 
 export function buildPagination(page: number, limit: number, total: number): PaginationMeta {
   return {
     page,

@@ -2,14 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { UnauthorizedError } from "../errors";
 import { verifyAccessToken } from "../shared/utils/token.util";
 
-/**
- * Protects routes by requiring a valid `Authorization: Bearer <token>`
- * header. On success, attaches `{ userId }` to `req.user` for
- * downstream controllers/services to use.
- *
- * Usage:
- *   router.get('/me', authenticate, userController.getMe);
- */
 export function authenticate(
   req: Request,
   _res: Response,

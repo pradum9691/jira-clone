@@ -72,14 +72,10 @@ const commentSchema = new Schema<IComment>(
   }
 );
 
-/**
- * Soft Delete Plugin
- */
+ 
 commentSchema.plugin(softDeletePlugin);
 
-/**
- * Hide internal fields from API responses
- */
+ 
 const transformFields = (_doc: any, ret: any) => {
   delete ret.isDeleted;
   delete ret.deletedAt;
@@ -96,9 +92,7 @@ commentSchema.set('toObject', {
   transform: transformFields,
 });
 
-/**
- * Indexes
- */
+ 
 commentSchema.index({
   organizationId: 1,
   projectId: 1,

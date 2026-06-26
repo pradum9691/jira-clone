@@ -18,22 +18,14 @@ import sprintRoutes from '../sprints/sprint.routes';
 import issueRoutes from '../issues/issue.routes';
 
 
-/**
- * Mounted at:
- * /api/v1/organizations/:orgId/workspaces/:workspaceId/projects
- *
- * mergeParams: true
- * Allows access to :orgId and :workspaceId from parent router.
- */
+ 
 const router = Router({
   mergeParams: true,
 });
 
 router.use(authenticate);
 
-/**
- * POST /
- */
+ 
 router.post(
   '/',
   validate(createProjectSchema),
@@ -41,19 +33,14 @@ router.post(
   projectController.createProject
 );
 
-/**
- * GET /
- */
+ 
 router.get(
   '/',
   validate(listProjectsSchema),
   requirePermission(Permission.PROJECT_VIEW),
   projectController.listProjects
 );
-
-/**
- * GET /:projectId
- */
+ 
 router.get(
   '/:projectId',
   validate(getProjectSchema),
@@ -61,9 +48,7 @@ router.get(
   projectController.getProject
 );
 
-/**
- * PATCH /:projectId
- */
+ 
 router.patch(
   '/:projectId',
   validate(updateProjectSchema),
@@ -71,9 +56,7 @@ router.patch(
   projectController.updateProject
 );
 
-/**
- * DELETE /:projectId
- */
+ 
 router.delete(
   '/:projectId',
   validate(deleteProjectSchema),

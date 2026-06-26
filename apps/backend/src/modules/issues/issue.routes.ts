@@ -13,17 +13,12 @@ import {
 import * as issueController from './issue.controller';
 import commentRoutes from '../comments/comment.routes';
 import attachmentRoutes from '../attachments/attachment.routes';
+import activityRoutes from '../activities/activity.routes'
 
-
-/**
- * Mounted at /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues
- * mergeParams: true — gives access to :orgId, :workspaceId, :projectId from parent routers
- */
 const router = Router({ mergeParams: true });
 
 router.use(authenticate);
 
-// POST / — create issue (ISSUE_CREATE)
 router.post(
   '/',
   validate(createIssueSchema),
@@ -31,7 +26,6 @@ router.post(
   issueController.createIssue
 );
 
-// GET / — list issues (ISSUE_VIEW)
 router.get(
   '/',
   validate(listIssuesSchema),
@@ -39,7 +33,6 @@ router.get(
   issueController.listIssues
 );
 
-// GET /:issueId — get single issue (ISSUE_VIEW)
 router.get(
   '/:issueId',
   validate(getIssueSchema),
@@ -47,7 +40,6 @@ router.get(
   issueController.getIssue
 );
 
-// PATCH /:issueId — update issue (ISSUE_UPDATE)
 router.patch(
   '/:issueId',
   validate(updateIssueSchema),
@@ -55,7 +47,6 @@ router.patch(
   issueController.updateIssue
 );
 
-// DELETE /:issueId — delete issue (ISSUE_DELETE)
 router.delete(
   '/:issueId',
   validate(deleteIssueSchema),
@@ -65,5 +56,6 @@ router.delete(
 
 router.use('/:issueId/comments', commentRoutes);
 router.use('/:issueId/attachments', attachmentRoutes);
+router.use('/:issueId/activities', activityRoutes);
 
 export default router;

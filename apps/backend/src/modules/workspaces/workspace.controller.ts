@@ -2,9 +2,7 @@ import { catchAsync } from '../../shared/utils/catch-async';
 import { sendResponse, buildPagination } from '../../shared/utils/api-response';
 import * as workspaceService from './workspace.service';
 
-/**
- * POST /api/v1/organizations/:orgId/workspaces
- */
+ 
 export const createWorkspace = catchAsync(async (req, res) => {
   const workspace = await workspaceService.createWorkspace(
     req.params.orgId,
@@ -19,9 +17,7 @@ export const createWorkspace = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces
- */
+ 
 export const listWorkspaces = catchAsync(async (req, res) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(50, Math.max(1, Number(req.query.limit) || 10));
@@ -39,9 +35,7 @@ export const listWorkspaces = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:slug
- */
+ 
 export const getWorkspace = catchAsync(async (req, res) => {
   const workspace = await workspaceService.getWorkspaceBySlug(
     req.params.orgId,
@@ -54,9 +48,7 @@ export const getWorkspace = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * PATCH /api/v1/organizations/:orgId/workspaces/:workspaceId
- */
+ 
 export const updateWorkspace = catchAsync(async (req, res) => {
   const workspace = await workspaceService.updateWorkspace(
     req.params.orgId,
@@ -70,9 +62,7 @@ export const updateWorkspace = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * DELETE /api/v1/organizations/:orgId/workspaces/:workspaceId
- */
+ 
 export const deleteWorkspace = catchAsync(async (req, res) => {
   await workspaceService.deleteWorkspace(
     req.params.orgId,

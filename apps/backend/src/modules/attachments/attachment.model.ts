@@ -91,14 +91,10 @@ const attachmentSchema = new Schema<IAttachment>(
   }
 );
 
-/**
- * Soft Delete Plugin
- */
+
 attachmentSchema.plugin(softDeletePlugin);
 
-/**
- * Hide internal fields from API responses
- */
+
 const transformFields = (_doc: any, ret: any) => {
   delete ret.isDeleted;
   delete ret.deletedAt;
@@ -115,11 +111,7 @@ attachmentSchema.set('toObject', {
   transform: transformFields,
 });
 
-/**
- * Indexes
- */
 
-// Compound index: list issue attachments efficiently
 attachmentSchema.index({
   organizationId: 1,
   projectId: 1,
@@ -127,7 +119,6 @@ attachmentSchema.index({
   createdAt: -1,
 });
 
-// Additional index: list attachments by uploader
 attachmentSchema.index({
   uploadedBy: 1,
 });

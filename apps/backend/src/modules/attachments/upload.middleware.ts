@@ -4,19 +4,14 @@ import crypto from 'crypto';
 import multer, { FileFilterCallback } from 'multer';
 import { Request } from 'express';
 
-/**
- * Upload destination directory.
- * Created automatically if it does not exist.
- */
+
 const UPLOAD_DIR = path.join(process.cwd(), 'uploads', 'issues');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-/**
- * Allowed MIME types for attachments.
- */
+
 const ALLOWED_MIME_TYPES = new Set([
   'image/png',
   'image/jpeg',
@@ -29,15 +24,10 @@ const ALLOWED_MIME_TYPES = new Set([
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 ]);
 
-/**
- * Maximum file size: 10 MB
- */
+
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-/**
- * Disk storage configuration.
- * Generates a unique filename using randomUUID() + original extension.
- */
+ 
 const storage = multer.diskStorage({
   destination: (_req: Request, _file: Express.Multer.File, cb) => {
     cb(null, UPLOAD_DIR);
@@ -50,10 +40,7 @@ const storage = multer.diskStorage({
   },
 });
 
-/**
- * MIME type filter.
- * Rejects files with unsupported MIME types.
- */
+ 
 const fileFilter = (
   _req: Request,
   file: Express.Multer.File,
@@ -65,13 +52,7 @@ const fileFilter = (
     cb(new Error("Unsupported file type"));
   }
 };
-
-/**
- * Multer upload middleware for issue attachments.
- *
- * Usage:
- *   router.post('/', uploadAttachment.single('file'), attachmentController.uploadAttachment);
- */
+ 
 export const uploadAttachment = multer({
   storage,
   fileFilter,

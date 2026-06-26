@@ -6,10 +6,7 @@ import {
 import { SprintStatus } from '../../shared/enums/sprint-status.enum';
 import * as sprintService from './sprint.service';
 
-/**
- * POST /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints
- * Creates a new sprint in a project.
- */
+ 
 export const createSprint = catchAsync(async (req, res) => {
   const sprint = await sprintService.createSprint(
     req.params.orgId,
@@ -24,11 +21,7 @@ export const createSprint = catchAsync(async (req, res) => {
     message: 'Sprint created successfully',
   });
 });
-
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints
- * Lists all sprints in a project.
- */
+ 
 export const listSprints = catchAsync(async (req, res) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(
@@ -57,10 +50,7 @@ export const listSprints = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints/:sprintId
- * Fetch single sprint.
- */
+ 
 export const getSprint = catchAsync(async (req, res) => {
   const sprint = await sprintService.getSprint(
     req.params.orgId,
@@ -73,11 +63,7 @@ export const getSprint = catchAsync(async (req, res) => {
     message: 'Sprint fetched successfully',
   });
 });
-
-/**
- * PATCH /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints/:sprintId
- * Update sprint.
- */
+ 
 export const updateSprint = catchAsync(async (req, res) => {
   const sprint = await sprintService.updateSprint(
     req.params.orgId,
@@ -91,11 +77,7 @@ export const updateSprint = catchAsync(async (req, res) => {
     message: 'Sprint updated successfully',
   });
 });
-
-/**
- * DELETE /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints/:sprintId
- * Soft delete sprint.
- */
+ 
 export const deleteSprint = catchAsync(async (req, res) => {
   await sprintService.deleteSprint(
     req.params.orgId,
@@ -108,10 +90,7 @@ export const deleteSprint = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * POST /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints/:sprintId/start
- * Start sprint.
- */
+ 
 export const startSprint = catchAsync(async (req, res) => {
   const sprint = await sprintService.startSprint(
     req.params.orgId,
@@ -125,10 +104,7 @@ export const startSprint = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * POST /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/sprints/:sprintId/complete
- * Complete sprint.
- */
+ 
 export const completeSprint = catchAsync(async (req, res) => {
   const sprint = await sprintService.completeSprint(
     req.params.orgId,

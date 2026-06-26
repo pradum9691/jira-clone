@@ -17,21 +17,11 @@ import { env } from "../../config/env";
 
 const INVITATION_EXPIRES_DAYS = 7;
 
-/** Generates a secure random token for invitation links. */
+ 
 function generateInviteToken(): string {
   return crypto.randomBytes(32).toString("hex");
 }
-
-/**
- * Creates an invitation and (placeholder) sends an email.
- *
- * Rules:
- * - Cannot invite someone already a member of the org.
- * - Cannot send a second PENDING invite to the same email in the same org
- *   (unique partial index on invitation.model.ts handles DB-level enforcement;
- *   we throw a friendly error here before hitting that index).
- * - Inviter must be a member themselves (checked in permission middleware).
- */
+ 
 export async function createInvitation(
   orgId: string,
   inviterId: string,
@@ -40,7 +30,7 @@ export async function createInvitation(
   const org = await Organization.findById(orgId);
   if (!org) throw new NotFoundError("Organization not found");
 
-  // Is this email already a member?
+ 
   const existingUser = await User.findOne({ email: input.email });
   if (existingUser) {
     const alreadyMember = await OrganizationMember.findOne({
@@ -54,7 +44,7 @@ export async function createInvitation(
     }
   }
 
-  // Is there already a pending invite for this email+org?
+ 
   const existingInvite = await Invitation.findOne({
     email: input.email,
     organizationId: new Types.ObjectId(orgId),
@@ -82,8 +72,7 @@ export async function createInvitation(
     invitedBy: new Types.ObjectId(inviterId),
     expiresAt,
   });
-
-  // Build the accept URL the frontend will handle
+ 
   const acceptUrl = `${env.CLIENT_URL}/invitations/${token}/accept`;
 
   await sendInvitationEmail({
@@ -96,10 +85,7 @@ export async function createInvitation(
 
   return invitation;
 }
-
-/**
- * Lists invitations for an organization, with optional status filter.
- */
+ 
 export async function listInvitations(
   orgId: string,
   status: InvitationStatus | undefined,
@@ -123,19 +109,7 @@ export async function listInvitations(
   return { data: invitations, total };
 }
 
-/**
- * Accepts an invitation by token.
- *
- * Flow:
- * 1. Find invitation by token.
- * 2. Validate it's PENDING and not expired.
- * 3. Create OrganizationMember entry with the invited role.
- * 4. Mark invitation as ACCEPTED.
- *
- * The accepting user must be logged in (authenticate middleware).
- * Their email must match the invitation email (prevents someone else
- * from accepting an invite meant for another person).
- */
+ 
 export async function acceptInvitation(token: string, acceptingUserId: string) {
   const invitation = await Invitation.findOne({ token });
 
@@ -156,7 +130,7 @@ export async function acceptInvitation(token: string, acceptingUserId: string) {
     );
   }
 
-  // Verify the logged-in user's email matches the invite
+ 
   const acceptingUser = await User.findById(acceptingUserId);
   if (!acceptingUser) throw new NotFoundError("User not found");
 
@@ -169,7 +143,7 @@ export async function acceptInvitation(token: string, acceptingUserId: string) {
     );
   }
 
-  // Check if already a member (edge case: invited twice somehow)
+  
   const alreadyMember = await OrganizationMember.findOne({
     organizationId: invitation.organizationId,
     userId: new Types.ObjectId(acceptingUserId),
@@ -178,7 +152,7 @@ export async function acceptInvitation(token: string, acceptingUserId: string) {
     throw new ConflictError("You are already a member of this organization");
   }
 
-  // Create membership
+ 
   await OrganizationMember.create({
     organizationId: invitation.organizationId,
     userId: new Types.ObjectId(acceptingUserId),
@@ -194,10 +168,7 @@ export async function acceptInvitation(token: string, acceptingUserId: string) {
   return { organizationId: invitation.organizationId, role: invitation.role };
 }
 
-/**
- * Revokes a pending invitation.
- * Only ORG_ADMIN can do this (enforced in route via requirePermission).
- */
+ 
 export async function revokeInvitation(orgId: string, invitationId: string) {
   const invitation = await Invitation.findOne({
     _id: new Types.ObjectId(invitationId),

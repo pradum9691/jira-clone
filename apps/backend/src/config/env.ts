@@ -28,8 +28,6 @@ const envSchema = z.object({
     .min(32, 'JWT_REFRESH_SECRET should be at least 32 characters'),
 
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
-
-  // Future integrations
   REDIS_URL: z.string().optional(),
 
   CLOUDINARY_CLOUD_NAME: z.string().optional(),

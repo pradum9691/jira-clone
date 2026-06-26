@@ -3,9 +3,7 @@ import { IssueStatus } from '../../shared/enums/issue-status.enum';
 import { IssuePriority } from '../../shared/enums/issue-priority.enum';
 import { IssueType } from '../../shared/enums/issue-type.enum';
 
-/**
- * MongoDB ObjectId validation (24-character hex string)
- */
+ 
 const objectIdSchema = z
   .string()
   .regex(/^[0-9a-f]{24}$/i, 'Invalid ObjectId format');

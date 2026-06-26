@@ -32,11 +32,10 @@ router.delete(
   requirePermission(Permission.ORG_MANAGE),
   orgController.deleteOrganization
 );
-
-// Nested: /organizations/:orgId/invitations/...
+ 
 router.use('/:orgId/invitations', orgInvitationRouter);
 
-// Nested: /organizations/:orgId/workspaces/...
+ 
 router.use('/:orgId/workspaces', workspaceRoutes);
 
 router.use(

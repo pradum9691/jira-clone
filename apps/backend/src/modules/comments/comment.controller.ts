@@ -4,11 +4,7 @@ import {
   buildPagination,
 } from '../../shared/utils/api-response';
 import * as commentService from './comment.service';
-
-/**
- * POST /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/comments
- * Creates a new comment on an issue.
- */
+ 
 export const createComment = catchAsync(async (req, res) => {
   const comment = await commentService.createComment(
     req.params.orgId,
@@ -24,11 +20,7 @@ export const createComment = catchAsync(async (req, res) => {
     message: 'Comment created successfully',
   });
 });
-
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/comments
- * Lists all comments on an issue.
- */
+ 
 export const listComments = catchAsync(async (req, res) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(
@@ -55,10 +47,7 @@ export const listComments = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/comments/:commentId
- * Fetches a single comment on an issue.
- */
+ 
 export const getComment = catchAsync(async (req, res) => {
   const comment = await commentService.getComment(
     req.params.orgId,
@@ -72,11 +61,7 @@ export const getComment = catchAsync(async (req, res) => {
     message: 'Comment fetched successfully',
   });
 });
-
-/**
- * PATCH /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/comments/:commentId
- * Updates a comment. Only the comment author can perform this.
- */
+ 
 export const updateComment = catchAsync(async (req, res) => {
    console.log("req.user =", req.user);
   const comment = await commentService.updateComment(
@@ -94,10 +79,7 @@ export const updateComment = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * DELETE /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/comments/:commentId
- * Soft deletes a comment. Only the comment author, ORG_ADMIN, or SUPER_ADMIN can perform this.
- */
+ 
 export const deleteComment = catchAsync(async (req, res) => {
   const comment = await commentService.deleteComment(
     req.params.orgId,

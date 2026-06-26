@@ -51,14 +51,6 @@ export function softDeletePlugin(schema: Schema): void {
   schema.pre("findOneAndDelete", excludeDeleted);
   schema.pre("countDocuments", excludeDeleted);
 
-  /**
-   * Aggregate middleware
-   *
-   * Injects:
-   * { isDeleted: false }
-   *
-   * only when query does not already specify it.
-   */
   schema.pre("aggregate", function () {
     const pipeline = this.pipeline();
 
@@ -77,9 +69,6 @@ export function softDeletePlugin(schema: Schema): void {
     }
   });
 
-  /**
-   * Soft Delete
-   */
   schema.methods.softDelete = async function (
     this: Document & SoftDeleteFields
   ) {
@@ -93,9 +82,6 @@ export function softDeletePlugin(schema: Schema): void {
     return this;
   };
 
-  /**
-   * Restore Soft Deleted Document
-   */
   schema.methods.restore = async function (
     this: Document & SoftDeleteFields
   ) {

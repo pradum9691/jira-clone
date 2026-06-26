@@ -1,8 +1,6 @@
 import { z } from "zod";
 
-/**
- * Create Organization
- */
+ 
 export const createOrganizationSchema = z.object({
   body: z
     .object({
@@ -34,9 +32,7 @@ export const createOrganizationSchema = z.object({
     .strict(),
 });
 
-/**
- * Update Organization
- */
+ 
 export const updateOrganizationSchema = z.object({
   params: z
     .object({
@@ -73,9 +69,7 @@ export const updateOrganizationSchema = z.object({
     ),
 });
 
-/**
- * Get Organization By Slug
- */
+ 
 export const getOrganizationSchema = z.object({
   params: z
     .object({
@@ -87,9 +81,7 @@ export const getOrganizationSchema = z.object({
     .strict(),
 });
 
-/**
- * Types
- */
+ 
 export type CreateOrganizationInput =
   z.infer<typeof createOrganizationSchema>["body"];
 

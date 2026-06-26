@@ -54,10 +54,7 @@ const projectMemberSchema = new Schema<IProjectMember>(
 
 projectMemberSchema.plugin(softDeletePlugin);
 
-/**
- * A user can only have one membership record per project.
- * Soft-deleted members do not block re-adding.
- */
+ 
 projectMemberSchema.index(
   {
     projectId: 1,
@@ -70,19 +67,13 @@ projectMemberSchema.index(
     },
   }
 );
-
-/**
- * Optimizes queries for finding all projects of a user,
- * user dashboard queries, and notifications.
- */
+ 
 projectMemberSchema.index({
   userId: 1,
   projectId: 1,
 });
 
-/**
- * Hide internal fields from API responses.
- */
+ 
 projectMemberSchema.set('toJSON', {
   transform: (_doc, ret) => {
     delete (ret as any).isDeleted;

@@ -2,9 +2,7 @@ import { catchAsync } from '../../shared/utils/catch-async';
 import { sendResponse, buildPagination } from '../../shared/utils/api-response';
 import * as projectService from './project.service';
 
-/**
- * POST /api/v1/organizations/:orgId/workspaces/:workspaceId/projects
- */
+ 
 export const createProject = catchAsync(async (req, res) => {
   const project = await projectService.createProject(
     req.params.orgId,
@@ -20,9 +18,7 @@ export const createProject = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects
- */
+ 
 export const listProjects = catchAsync(async (req, res) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(50, Math.max(1, Number(req.query.limit) || 10));
@@ -41,9 +37,7 @@ export const listProjects = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId
- */
+ 
 export const getProject = catchAsync(async (req, res) => {
   const project = await projectService.getProjectById(
     req.params.orgId,
@@ -57,9 +51,7 @@ export const getProject = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * PATCH /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId
- */
+ 
 export const updateProject = catchAsync(async (req, res) => {
   const project = await projectService.updateProject(
     req.params.orgId,
@@ -74,9 +66,7 @@ export const updateProject = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * DELETE /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId
- */
+ 
 export const deleteProject = catchAsync(async (req, res) => {
   await projectService.deleteProject(
     req.params.orgId,

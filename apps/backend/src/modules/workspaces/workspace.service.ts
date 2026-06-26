@@ -14,13 +14,7 @@ import {
   UpdateWorkspaceInput,
 } from './workspace.validation';
 
-/**
- * Generates a slug unique within the given organization.
- * Example:
- * my-workspace
- * my-workspace-2
- * my-workspace-3
- */
+ 
 async function generateUniqueSlug(
   orgId: string,
   base: string
@@ -43,10 +37,7 @@ async function generateUniqueSlug(
   return slug;
 }
 
-/**
- * Validates a custom slug supplied by the user.
- * Slug uniqueness is scoped to the organization.
- */
+ 
 async function resolveSlug(
   orgId: string,
   requestedSlug: string
@@ -67,9 +58,7 @@ async function resolveSlug(
   return normalizedSlug;
 }
 
-/**
- * Creates a workspace inside an organization.
- */
+ 
 export async function createWorkspace(
   orgId: string,
   creatorId: string,
@@ -108,9 +97,7 @@ export async function createWorkspace(
   return workspace;
 }
 
-/**
- * Lists workspaces in an organization.
- */
+ 
 export async function listWorkspaces(
   orgId: string,
   page: number,
@@ -144,10 +131,7 @@ export async function listWorkspaces(
     limit,
   };
 }
-
-/**
- * Fetches a workspace by slug.
- */
+ 
 export async function getWorkspaceBySlug(
   orgId: string,
   slug: string
@@ -173,9 +157,7 @@ export async function getWorkspaceBySlug(
   return workspace;
 }
 
-/**
- * Fetches a workspace by ID.
- */
+ 
 export async function getWorkspaceById(
   orgId: string,
   workspaceId: string
@@ -197,10 +179,7 @@ export async function getWorkspaceById(
 
   return workspace;
 }
-
-/**
- * Updates workspace.
- */
+ 
 export async function updateWorkspace(
   orgId: string,
   workspaceId: string,
@@ -247,9 +226,7 @@ export async function updateWorkspace(
   return workspace;
 }
 
-/**
- * Soft deletes a workspace.
- */
+ 
 export async function deleteWorkspace(
   orgId: string,
   workspaceId: string

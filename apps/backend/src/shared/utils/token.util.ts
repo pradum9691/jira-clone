@@ -2,18 +2,12 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { env } from '../../config/env';
 
-/**
- * Payload encoded inside the short-lived ACCESS token (JWT).
- * Keep this minimal. Roles, permissions, organization membership,
- * etc. should be loaded from the database per request.
- */
+ 
 export interface AccessTokenPayload {
   userId: string;
 }
 
-/**
- * Creates a short-lived access token.
- */
+ 
 export function signAccessToken(
   payload: AccessTokenPayload
 ): string {
@@ -22,9 +16,7 @@ export function signAccessToken(
   });
 }
 
-/**
- * Verifies and validates an access token.
- */
+ 
 export function verifyAccessToken(
   token: string
 ): AccessTokenPayload {
@@ -45,20 +37,12 @@ export function verifyAccessToken(
     userId: decoded.userId,
   };
 }
-
-/**
- * Generates a secure opaque refresh token.
- *
- * Raw token is sent to the client.
- * Only its SHA-256 hash is stored in MongoDB.
- */
+ 
 export function generateRefreshTokenValue(): string {
   return crypto.randomBytes(64).toString('hex');
 }
 
-/**
- * Deterministic SHA-256 hash for refresh token storage.
- */
+ 
 export function hashToken(token: string): string {
   return crypto
     .createHash('sha256')
@@ -66,15 +50,7 @@ export function hashToken(token: string): string {
     .digest('hex');
 }
 
-/**
- * Converts:
- * 30s
- * 15m
- * 24h
- * 7d
- *
- * into milliseconds.
- */
+ 
 export function parseDurationToMs(
   duration: string
 ): number {
@@ -102,9 +78,7 @@ export function parseDurationToMs(
   return value * multipliers[unit];
 }
 
-/**
- * Calculates refresh-token expiry date.
- */
+ 
 export function getRefreshTokenExpiryDate(): Date {
   return new Date(
     Date.now() +

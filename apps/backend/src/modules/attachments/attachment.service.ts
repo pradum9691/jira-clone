@@ -6,9 +6,6 @@ import { Issue } from "../issues/issue.model";
 import { OrgRole } from "../../shared/enums/role.enum";
 import { BadRequestError, NotFoundError } from "../../errors";
 
-/**
- * Verify project belongs to organization
- */
 async function verifyProjectBelongsToOrg(
   orgId: string,
   projectId: string,
@@ -23,9 +20,7 @@ async function verifyProjectBelongsToOrg(
   }
 }
 
-/**
- * Verify issue belongs to organization and project
- */
+
 async function verifyIssueBelongsToProject(
   orgId: string,
   projectId: string,
@@ -42,9 +37,6 @@ async function verifyIssueBelongsToProject(
   }
 }
 
-/**
- * Fetch attachment document for mutations
- */
 async function getAttachmentById(
   orgId: string,
   projectId: string,
@@ -68,9 +60,6 @@ async function getAttachmentById(
   return attachment;
 }
 
-/**
- * Fetch attachment lean (read-only)
- */
 async function getAttachmentByIdLean(
   orgId: string,
   projectId: string,
@@ -96,9 +85,6 @@ async function getAttachmentByIdLean(
   return attachment;
 }
 
-/**
- * Upload Attachment
- */
 export async function uploadAttachment(
   orgId: string,
   projectId: string,
@@ -143,9 +129,7 @@ export async function uploadAttachment(
   return populated;
 }
 
-/**
- * List Attachments (newest first)
- */
+
 export async function listAttachments(
   orgId: string,
   projectId: string,
@@ -181,9 +165,7 @@ export async function listAttachments(
   };
 }
 
-/**
- * Get single attachment (lean)
- */
+
 export async function getAttachment(
   orgId: string,
   projectId: string,
@@ -196,11 +178,7 @@ export async function getAttachment(
   return getAttachmentByIdLean(orgId, projectId, issueId, attachmentId);
 }
 
-/**
- * Download Attachment
- * Verifies physical file existence before returning.
- * Controller is responsible for streaming.
- */
+
 export async function downloadAttachment(
   orgId: string,
   projectId: string,
@@ -226,11 +204,6 @@ export async function downloadAttachment(
   return attachment;
 }
 
-/**
- * Delete Attachment
- * Only uploader, ORG_ADMIN, or SUPER_ADMIN can delete.
- * Removes physical file from disk then soft-deletes the record.
- */
 export async function deleteAttachment(
   orgId: string,
   projectId: string,
@@ -259,7 +232,6 @@ export async function deleteAttachment(
     );
   }
 
-  // Remove physical file, ignore if already missing
   try {
     await fs.unlink(attachment.storagePath);
   } catch (err: any) {

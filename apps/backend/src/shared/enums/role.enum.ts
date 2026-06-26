@@ -1,13 +1,4 @@
-/**
- * Organization-level roles.
- *
- * These map to the `role` field on `organization_members` and
- * `project_members`. The actual permission set per role is defined
- * in `shared/constants/role-permissions.constant.ts` (Phase 1
- * hardcoded map, later backed by the `roles` / `permissions` /
- * `role_permissions` collections for custom roles).
- */
-export enum OrgRole {
+ export enum OrgRole {
   SUPER_ADMIN = 'SUPER_ADMIN',
   ORG_ADMIN = 'ORG_ADMIN',
   PROJECT_MANAGER = 'PROJECT_MANAGER',

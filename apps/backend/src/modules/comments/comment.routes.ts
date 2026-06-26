@@ -12,15 +12,11 @@ import {
 } from './comment.validation';
 import * as commentController from './comment.controller';
 
-/**
- * Mounted at /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId/comments
- * mergeParams: true — gives access to route params from parent routers
- */
+ 
 const router = Router({ mergeParams: true });
 
 router.use(authenticate);
-
-// POST / — Create comment (ISSUE_COMMENT permission)
+ 
 router.post(
   '/',
   validate(createCommentSchema),
@@ -28,7 +24,7 @@ router.post(
   commentController.createComment
 );
 
-// GET / — List comments (ISSUE_COMMENT permission)
+ 
 router.get(
   '/',
   validate(listCommentsSchema),
@@ -36,7 +32,7 @@ router.get(
   commentController.listComments
 );
 
-// GET /:commentId — Get single comment (ISSUE_COMMENT permission)
+ 
 router.get(
   '/:commentId',
   validate(getCommentSchema),
@@ -44,15 +40,14 @@ router.get(
   commentController.getComment
 );
 
-// PATCH /:commentId — Update comment (ISSUE_COMMENT permission)
+ 
 router.patch(
   '/:commentId',
   validate(updateCommentSchema),
   requirePermission(Permission.ISSUE_COMMENT),
   commentController.updateComment
 );
-
-// DELETE /:commentId — Delete comment (ISSUE_COMMENT permission)
+ 
 router.delete(
   '/:commentId',
   validate(deleteCommentSchema),

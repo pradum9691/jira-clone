@@ -8,7 +8,7 @@ export const registerSchema = z.object({
       .min(2, "Name must be at least 2 characters")
       .max(100),
     email: z.string().trim().toLowerCase().email("Invalid email address"),
-    // bcrypt has a 72-byte input limit — cap to keep things safe.
+    
     password: z
       .string()
       .min(8, "Password must be at least 8 characters")

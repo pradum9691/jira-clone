@@ -16,14 +16,13 @@ import {
 
 export function createApp(): Application {
   const app = express();
-
-  // Reverse proxy support (Render, Railway, Nginx, etc.)
+ 
   app.set('trust proxy', 1);
 
-  // Security headers
+ 
   app.use(helmet());
 
-  // CORS
+  
   app.use(
     cors({
       origin: env.CLIENT_URL,
@@ -31,18 +30,18 @@ export function createApp(): Application {
     })
   );
 
-  // Body parsing
+  
   app.use(express.json({ limit: '10kb' }));
   app.use(express.urlencoded({ extended: true, limit: '10kb' }));
   app.use(cookieParser());
 
-  // NoSQL injection protection
+ 
   app.use(mongoSanitize());
 
-  // Request logging
+ 
   app.use(pinoHttp({ logger }));
 
-  // Rate limiting
+ 
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 300,
@@ -52,10 +51,9 @@ export function createApp(): Application {
 
   app.use('/api', apiLimiter);
 
-  // API routes
+  
   app.use('/api/v1', apiRoutes);
-
-  // Error handling
+ 
   app.use(notFoundHandler);
   app.use(globalErrorHandler);
 

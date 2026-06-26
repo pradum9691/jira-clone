@@ -1,13 +1,7 @@
 import { Schema, model, Document, Types } from 'mongoose';
 import { OrgRole, InvitationStatus } from '../../shared/enums/role.enum';
 
-/**
- * invitations
- *
- * Tracks pending invites for users to join an organization.
- * Email delivery handled via Resend; `token` is the link param
- * used on the accept-invite page.
- */
+ 
 export interface IInvitation extends Document {
   email: string;
   organizationId: Types.ObjectId;
@@ -63,7 +57,7 @@ const invitationSchema = new Schema<IInvitation>(
   { timestamps: true }
 );
 
-// Prevent duplicate pending invites for the same email + org.
+ 
 invitationSchema.index(
   { email: 1, organizationId: 1 },
   {
@@ -71,8 +65,7 @@ invitationSchema.index(
     partialFilterExpression: { status: InvitationStatus.PENDING },
   }
 );
-
-// Auto-expire stale invitation docs (cleanup, 90 days after expiry).
+ 
 invitationSchema.index(
   { expiresAt: 1 },
   { expireAfterSeconds: 60 * 60 * 24 * 90 }

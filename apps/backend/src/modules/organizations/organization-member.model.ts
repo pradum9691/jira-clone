@@ -5,14 +5,7 @@ import {
   SoftDeleteMethods,
 } from "../../database/plugins/soft-delete.plugin";
 import { OrgRole } from "../../shared/enums/role.enum";
-
-/**
- * organization_members
- *
- * Links a User to an Organization with a role. This determines
- * whether a user can access an organization at all. Project-level
- * access is determined separately by `project_members`.
- */
+ 
 export interface IOrganizationMember
   extends Document, SoftDeleteFields, SoftDeleteMethods {
   organizationId: Types.ObjectId;
@@ -64,7 +57,7 @@ const organizationMemberSchema = new Schema<IOrganizationMember>(
 
 organizationMemberSchema.plugin(softDeletePlugin);
 
-// A user can only have one membership record per organization.
+ 
 organizationMemberSchema.index(
   { organizationId: 1, userId: 1 },
   { unique: true },

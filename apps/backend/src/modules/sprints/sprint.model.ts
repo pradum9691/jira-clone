@@ -21,7 +21,7 @@ export interface ISprint extends Document, SoftDeleteFields, SoftDeleteMethods {
 
 const sprintSchema = new Schema<ISprint>(
   {
-    // Multi-tenancy support
+    
     organizationId: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',
@@ -29,7 +29,7 @@ const sprintSchema = new Schema<ISprint>(
       index: true,
     },
 
-    // Sprint belongs to one project
+ 
     projectId: {
       type: Schema.Types.ObjectId,
       ref: 'Project',
@@ -87,14 +87,10 @@ const sprintSchema = new Schema<ISprint>(
   }
 );
 
-/**
- * Soft Delete Plugin
- */
+ 
 sprintSchema.plugin(softDeletePlugin);
 
-/**
- * Hide internal fields from API responses
- */
+ 
 const transformFields = (_doc: any, ret: any) => {
   delete ret.isDeleted;
   delete ret.deletedAt;
@@ -111,41 +107,32 @@ sprintSchema.set('toObject', {
   transform: transformFields,
 });
 
-/**
- * Indexes
- */
-
-// List project sprints efficiently
+ 
 sprintSchema.index({
   organizationId: 1,
   projectId: 1,
   createdAt: -1,
 });
 
-// Filter by project + status
+ 
 sprintSchema.index({
   projectId: 1,
   status: 1,
 });
 
-// Organization-wide sprint status queries
+ 
 sprintSchema.index({
   organizationId: 1,
   status: 1,
 });
 
-// Frequently used query
+ 
 sprintSchema.index({
   organizationId: 1,
   projectId: 1,
   status: 1,
 });
-
-/**
- * Allow only ONE ACTIVE sprint per project
- * Remove this index if your business logic
- * allows multiple active sprints.
- */
+ 
 sprintSchema.index(
   {
     projectId: 1,
@@ -159,10 +146,7 @@ sprintSchema.index(
     },
   }
 );
-
-/**
- * Normalize sprint name before save
- */
+ 
 sprintSchema.pre('save', function (next) {
   if (this.name) {
     this.name = this.name.trim();

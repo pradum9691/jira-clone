@@ -5,11 +5,7 @@ import { sendResponse, buildPagination } from "../../shared/utils/api-response";
 
 import * as orgService from "./organization.service";
 
-/**
- * POST /api/v1/organizations
- * Creates a new organization.
- * Creator automatically becomes ORG_ADMIN.
- */
+ 
 export const createOrganization = catchAsync(async (req, res) => {
   if (!req.user) {
     throw new UnauthorizedError("Authentication required");
@@ -27,11 +23,7 @@ export const createOrganization = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations
- * Returns all organizations
- * the current user belongs to.
- */
+ 
 export const getMyOrganizations = catchAsync(async (req, res) => {
   if (!req.user) {
     throw new UnauthorizedError("Authentication required");
@@ -54,10 +46,7 @@ export const getMyOrganizations = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:slug
- * Membership already verified by RBAC middleware.
- */
+ 
 export const getOrganization = catchAsync(async (req, res) => {
   const organization = await orgService.getOrganizationBySlug(req.params.slug);
 
@@ -66,11 +55,7 @@ export const getOrganization = catchAsync(async (req, res) => {
     message: "Organization fetched successfully",
   });
 });
-
-/**
- * PATCH /api/v1/organizations/:orgId
- * ORG_ADMIN only.
- */
+ 
 export const updateOrganization = catchAsync(async (req, res) => {
   const organization = await orgService.updateOrganization(
     req.organizationId ?? req.params.orgId,
@@ -83,11 +68,7 @@ export const updateOrganization = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * DELETE /api/v1/organizations/:orgId
- * Soft delete organization.
- * ORG_ADMIN only.
- */
+ 
 export const deleteOrganization = catchAsync(async (req, res) => {
   await orgService.deleteOrganization(req.organizationId ?? req.params.orgId);
 

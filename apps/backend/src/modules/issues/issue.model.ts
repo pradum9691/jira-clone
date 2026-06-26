@@ -134,14 +134,10 @@ const issueSchema = new Schema<IIssue>(
   }
 );
 
-/**
- * Soft Delete Plugin
- */
+ 
 issueSchema.plugin(softDeletePlugin);
 
-/**
- * Hide internal fields from API responses
- */
+ 
 const transformFields = (_doc: any, ret: any) => {
   delete ret.isDeleted;
   delete ret.deletedAt;
@@ -157,36 +153,30 @@ issueSchema.set('toJSON', {
 issueSchema.set('toObject', {
   transform: transformFields,
 });
-
-/**
- * Indexes
- */
-
-// List project issues efficiently
+ 
 issueSchema.index({
   organizationId: 1,
   projectId: 1,
   createdAt: -1,
 });
 
-// Organization/sprint issues lookup
+ 
 issueSchema.index({
   organizationId: 1,
   sprintId: 1,
 });
-
-// Assignee task filtering
+ 
 issueSchema.index({
   assigneeId: 1,
   status: 1,
 });
 
-// Default sorting
+ 
 issueSchema.index({
   createdAt: -1,
 });
 
-// Unique issue number per project
+ 
 issueSchema.index(
   {
     projectId: 1,

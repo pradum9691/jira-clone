@@ -7,11 +7,7 @@ import { IssueStatus } from '../../shared/enums/issue-status.enum';
 import { IssuePriority } from '../../shared/enums/issue-priority.enum';
 import { IssueType } from '../../shared/enums/issue-type.enum';
 import * as issueService from './issue.service';
-
-/**
- * POST /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues
- * Creates a new issue in a project.
- */
+ 
 export const createIssue = catchAsync(async (req, res) => {
   const issue = await issueService.createIssue(
     req.params.orgId,
@@ -26,11 +22,7 @@ export const createIssue = catchAsync(async (req, res) => {
     message: 'Issue created successfully',
   });
 });
-
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues
- * Lists issues in a project with filtering and pagination.
- */
+ 
 export const listIssues = catchAsync(async (req, res) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(
@@ -69,10 +61,7 @@ export const listIssues = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId
- * Fetches a single issue by ID.
- */
+ 
 export const getIssue = catchAsync(async (req, res) => {
   const issue = await issueService.getIssue(
     req.params.orgId,
@@ -86,10 +75,7 @@ export const getIssue = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * PATCH /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId
- * Updates an issue.
- */
+ 
 export const updateIssue = catchAsync(async (req, res) => {
   const issue = await issueService.updateIssue(
     req.params.orgId,
@@ -104,10 +90,7 @@ export const updateIssue = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * DELETE /api/v1/organizations/:orgId/workspaces/:workspaceId/projects/:projectId/issues/:issueId
- * Soft deletes an issue.
- */
+ 
 export const deleteIssue = catchAsync(async (req, res) => {
   await issueService.deleteIssue(
     req.params.orgId,

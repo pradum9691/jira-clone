@@ -1,9 +1,7 @@
 import { z } from 'zod';
 import { SprintStatus } from '../../shared/enums/sprint-status.enum';
 
-/**
- * MongoDB ObjectId validation (24-character hex string)
- */
+ 
 const objectIdSchema = z
   .string()
   .regex(/^[0-9a-f]{24}$/i, 'Invalid ObjectId format');
@@ -105,7 +103,7 @@ export const updateSprintSchema = z.object({
       endDate: z.coerce.date().nullable().optional(),
     })
 
-    // At least one field must be provided
+     
     .refine(
       (data) => Object.keys(data).length > 0,
       {
@@ -113,7 +111,7 @@ export const updateSprintSchema = z.object({
       }
     )
 
-    // Date validation
+    
     .refine(
       (data) => {
         if (data.startDate && data.endDate) {

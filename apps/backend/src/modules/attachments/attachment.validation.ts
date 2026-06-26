@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-/**
- * MongoDB ObjectId validation (24-character hex string)
- */
+
 const objectIdSchema = z
   .string()
   .regex(/^[0-9a-f]{24}$/i, 'Invalid ObjectId format');

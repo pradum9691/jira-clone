@@ -3,10 +3,7 @@ import { sendResponse, buildPagination } from '../../shared/utils/api-response';
 import { InvitationStatus } from '../../shared/enums/role.enum';
 import * as invitationService from './invitation.service';
 
-/**
- * POST /api/v1/organizations/:orgId/invitations
- * ORG_ADMIN sends an invite to an email with a role.
- */
+ 
 export const createInvitation = catchAsync(async (req, res) => {
   const invitation = await invitationService.createInvitation(
     req.params.orgId,
@@ -21,10 +18,7 @@ export const createInvitation = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * GET /api/v1/organizations/:orgId/invitations
- * Lists invitations for the org. Optional ?status=PENDING filter.
- */
+ 
 export const listInvitations = catchAsync(async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
@@ -44,10 +38,7 @@ export const listInvitations = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * POST /api/v1/invitations/:token/accept
- * Logged-in user accepts an invitation by its token.
- */
+ 
 export const acceptInvitation = catchAsync(async (req, res) => {
   const result = await invitationService.acceptInvitation(
     req.params.token,
@@ -60,10 +51,7 @@ export const acceptInvitation = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * DELETE /api/v1/organizations/:orgId/invitations/:invitationId
- * ORG_ADMIN revokes a pending invitation.
- */
+ 
 export const revokeInvitation = catchAsync(async (req, res) => {
   const invitation = await invitationService.revokeInvitation(
     req.params.orgId,

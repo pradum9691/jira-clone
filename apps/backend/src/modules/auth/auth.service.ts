@@ -25,17 +25,12 @@ import {
   LoginInput,
 } from "./auth.validation";
 
-/**
- * Request metadata used for refresh-token auditing.
- */
+ 
 export interface RequestMeta {
   userAgent?: string;
   ipAddress?: string;
 }
-
-/**
- * Safe user DTO returned to clients.
- */
+ 
 function toSafeUser(user: IUser) {
   return {
     id: user._id.toString(),
@@ -53,9 +48,7 @@ function toSafeUser(user: IUser) {
   };
 }
 
-/**
- * Register new account.
- */
+ 
 export async function register(input: RegisterInput) {
   const existing = await User.findOne({
     email: input.email,
@@ -79,10 +72,7 @@ export async function register(input: RegisterInput) {
 
   return toSafeUser(user);
 }
-
-/**
- * Login user and issue token pair.
- */
+ 
 export async function login(
   input: LoginInput,
   meta: RequestMeta
@@ -151,10 +141,7 @@ export async function login(
   };
 }
 
-/**
- * Refresh-token rotation
- * + reuse detection.
- */
+ 
 export async function refreshTokens(
   rawToken: string | undefined,
   meta: RequestMeta
@@ -179,9 +166,7 @@ export async function refreshTokens(
     );
   }
 
-  /**
-   * Reuse detection
-   */
+  
   if (existing.isRevoked) {
     await RefreshToken.updateMany(
       {
@@ -259,9 +244,7 @@ export async function refreshTokens(
   };
 }
 
-/**
- * Logout current session.
- */
+ 
 export async function logout(
   rawToken:
     | string

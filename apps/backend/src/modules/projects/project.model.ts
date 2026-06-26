@@ -73,11 +73,7 @@ const projectSchema = new Schema<IProject>(
 );
 
 projectSchema.plugin(softDeletePlugin);
-
-/**
- * Project key must be unique within an organization.
- * Soft-deleted projects do not block reuse.
- */
+ 
 projectSchema.index(
   {
     organizationId: 1,
@@ -91,18 +87,14 @@ projectSchema.index(
   }
 );
 
-/**
- * Optimizes queries for projects under a workspace.
- */
+ 
 projectSchema.index({
   organizationId: 1,
   workspaceId: 1,
   createdAt: -1,
 });
 
-/**
- * Hide internal fields from API responses.
- */
+ 
 projectSchema.set('toJSON', {
   transform: (_doc, ret) => {
     delete (ret as any).isDeleted;

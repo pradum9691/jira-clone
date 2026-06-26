@@ -16,22 +16,13 @@ import {
 
 import * as workspaceController from './workspace.controller';
 
-/**
- * Mounted at:
- * /api/v1/organizations/:orgId/workspaces
- *
- * mergeParams: true
- * Allows access to :orgId from parent router.
- */
+ 
 const router = Router({
   mergeParams: true,
 });
 
 router.use(authenticate);
-
-/**
- * POST /
- */
+ 
 router.post(
   '/',
   validate(createWorkspaceSchema),
@@ -41,9 +32,7 @@ router.post(
   workspaceController.createWorkspace
 );
 
-/**
- * GET /
- */
+ 
 router.get(
   '/',
   validate(listWorkspacesSchema),
@@ -53,9 +42,7 @@ router.get(
   workspaceController.listWorkspaces
 );
 
-/**
- * GET /:slug
- */
+ 
 router.get(
   '/:slug',
   validate(getWorkspaceSchema),
@@ -65,9 +52,7 @@ router.get(
   workspaceController.getWorkspace
 );
 
-/**
- * PATCH /:workspaceId
- */
+ 
 router.patch(
   '/:workspaceId',
   validate(updateWorkspaceSchema),
@@ -77,9 +62,7 @@ router.patch(
   workspaceController.updateWorkspace
 );
 
-/**
- * DELETE /:workspaceId
- */
+ 
 router.delete(
   '/:workspaceId',
   validate(deleteWorkspaceSchema),

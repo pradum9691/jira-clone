@@ -16,9 +16,7 @@ import {
   UpdateOrganizationInput,
 } from './organization.validation';
 
-/**
- * Removes internal fields from API responses.
- */
+ 
 function toSafeOrg(org: IOrganization) {
   const obj = org.toObject();
 
@@ -28,14 +26,7 @@ function toSafeOrg(org: IOrganization) {
 
   return obj;
 }
-
-/**
- * Generates a unique slug from a base string.
- * Example:
- * acme-corp
- * acme-corp-2
- * acme-corp-3
- */
+ 
 async function generateUniqueSlug(
   base: string
 ): Promise<string> {
@@ -51,10 +42,7 @@ async function generateUniqueSlug(
 
   return slug;
 }
-
-/**
- * Validates a custom slug supplied by the user.
- */
+ 
 async function resolveSlug(
   requestedSlug: string
 ): Promise<string> {
@@ -70,10 +58,7 @@ async function resolveSlug(
 
   return requestedSlug;
 }
-
-/**
- * Creates organization and owner membership.
- */
+ 
 export async function createOrganization(
   input: CreateOrganizationInput,
   creatorId: string
@@ -99,10 +84,7 @@ export async function createOrganization(
 
   return toSafeOrg(org);
 }
-
-/**
- * Returns organizations where user is an ACTIVE member.
- */
+ 
 export async function getUserOrganizations(
   userId: string,
   page: number,
@@ -160,10 +142,7 @@ export async function getUserOrganizations(
     limit,
   };
 }
-
-/**
- * Finds organization by slug.
- */
+ 
 export async function getOrganizationBySlug(
   slug: string
 ) {
@@ -180,9 +159,7 @@ export async function getOrganizationBySlug(
   return toSafeOrg(org);
 }
 
-/**
- * Updates organization.
- */
+
 export async function updateOrganization(
   orgId: string,
   input: UpdateOrganizationInput
@@ -207,10 +184,7 @@ export async function updateOrganization(
 
   return toSafeOrg(org);
 }
-
-/**
- * Returns user's role inside organization.
- */
+ 
 export async function getMemberRole(
   userId: string,
   organizationId: string
@@ -227,9 +201,7 @@ export async function getMemberRole(
   return membership?.role ?? null;
 }
 
-/**
- * Soft deletes an organization.
- */
+ 
 export async function deleteOrganization(
   orgId: string
 ): Promise<void> {

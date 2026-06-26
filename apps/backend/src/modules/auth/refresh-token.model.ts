@@ -1,18 +1,5 @@
 import { Schema, model, Document, Types } from "mongoose";
-
-/**
- * refresh_tokens
- *
- * Supports refresh token rotation + reuse detection:
- * - On every /auth/refresh-token call, the current token is marked
- *   revoked and `replacedByToken` is set to the new token's hash.
- * - If a token that is already `isRevoked: true` is presented again,
- *   that's a reuse signal -> revoke the entire token family
- *   (all tokens for that userId) and force re-login.
- *
- * `token` stores a HASH of the raw refresh token (e.g. SHA-256),
- * never the raw value, in case the DB is ever compromised.
- */
+ 
 export interface IRefreshToken extends Document {
   userId: Types.ObjectId;
   familyId: string; 
@@ -73,8 +60,7 @@ const refreshTokenSchema = new Schema<IRefreshToken>(
   },
   { timestamps: { createdAt: true, updatedAt: false } },
 );
-
-// MongoDB TTL index: auto-delete documents once expiresAt has passed.
+ 
 refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const RefreshToken = model<IRefreshToken>(
