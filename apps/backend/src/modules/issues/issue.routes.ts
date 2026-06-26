@@ -12,6 +12,7 @@ import {
 } from './issue.validation';
 import * as issueController from './issue.controller';
 import commentRoutes from '../comments/comment.routes';
+import attachmentRoutes from '../attachments/attachment.routes';
 
 
 /**
@@ -63,5 +64,6 @@ router.delete(
 );
 
 router.use('/:issueId/comments', commentRoutes);
+router.use('/:issueId/attachments', attachmentRoutes);
 
 export default router;

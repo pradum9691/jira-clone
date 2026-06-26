@@ -76,8 +76,7 @@ const attachmentSchema = new Schema<IAttachment>(
     uploadedBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Uploaded by user is required'],
-      index: true,
+      required: [true, 'Uploaded by user is required']
     },
 
     createdById: {
