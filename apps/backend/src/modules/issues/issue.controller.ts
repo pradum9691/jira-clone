@@ -81,6 +81,7 @@ export const updateIssue = catchAsync(async (req, res) => {
     req.params.orgId,
     req.params.projectId,
     req.params.issueId,
+    req.user!.userId,
     req.body
   );
 

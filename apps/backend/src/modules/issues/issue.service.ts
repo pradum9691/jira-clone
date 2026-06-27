@@ -8,10 +8,9 @@ import { IssuePriority } from "../../shared/enums/issue-priority.enum";
 import { IssueType } from "../../shared/enums/issue-type.enum";
 import { BadRequestError, NotFoundError } from "../../errors";
 import { CreateIssueInput, UpdateIssueInput } from "./issue.validation";
-import { createActivity } from '../activities/activity.service';
-import { ActivityAction } from '../../shared/enums/activity-action.enum';
+import { createActivity } from "../activities/activity.service";
+import { ActivityAction } from "../../shared/enums/activity-action.enum";
 
- 
 async function verifyProjectBelongsToOrg(orgId: string, projectId: string) {
   const exists = await Project.exists({
     _id: new Types.ObjectId(projectId),
@@ -23,7 +22,6 @@ async function verifyProjectBelongsToOrg(orgId: string, projectId: string) {
   }
 }
 
- 
 async function getIssueByIdLean(
   orgId: string,
   projectId: string,
@@ -49,7 +47,6 @@ async function getIssueByIdLean(
   return issue;
 }
 
- 
 async function getIssueById(orgId: string, projectId: string, issueId: string) {
   await verifyProjectBelongsToOrg(orgId, projectId);
 
@@ -70,7 +67,6 @@ async function getIssueById(orgId: string, projectId: string, issueId: string) {
   return issue;
 }
 
- 
 export async function createIssue(
   orgId: string,
   projectId: string,
@@ -148,27 +144,24 @@ export async function createIssue(
   });
 
   const populatedIssue = await Issue.findById(issue._id)
-  .populate("assigneeId", "name email avatarUrl")
-  .populate("reporterId", "name email avatarUrl")
-  .populate("createdById", "name email avatarUrl")
-  .populate("sprintId", "name status");
+    .populate("assigneeId", "name email avatarUrl")
+    .populate("reporterId", "name email avatarUrl")
+    .populate("createdById", "name email avatarUrl")
+    .populate("sprintId", "name status");
 
-if (!populatedIssue) {
-  throw new NotFoundError("Issue not found");
-}
-console.log("===== BEFORE CREATE ACTIVITY =====");
-await createActivity(
-  orgId,
-  projectId,
-  issue._id.toString(),
-  creatorId,
-  ActivityAction.ISSUE_CREATED,
-);
-console.log("===== AFTER CREATE ACTIVITY =====");
-return populatedIssue;
+  if (!populatedIssue) {
+    throw new NotFoundError("Issue not found");
+  }
+  await createActivity(
+    orgId,
+    projectId,
+    issue._id.toString(),
+    creatorId,
+    ActivityAction.ISSUE_CREATED,
+  );
+  return populatedIssue;
 }
 
- 
 export async function listIssues(
   orgId: string,
   projectId: string,
@@ -235,7 +228,6 @@ export async function listIssues(
   };
 }
 
- 
 export async function getIssue(
   orgId: string,
   projectId: string,
@@ -244,14 +236,17 @@ export async function getIssue(
   return await getIssueByIdLean(orgId, projectId, issueId);
 }
 
- 
 export async function updateIssue(
   orgId: string,
   projectId: string,
   issueId: string,
+  userId: string,
   input: UpdateIssueInput,
 ) {
   const issue = await getIssueById(orgId, projectId, issueId);
+  const oldStatus = issue.status;
+const oldPriority = issue.priority;
+const oldAssignee = issue.assigneeId ? issue.assigneeId.toString() : null;
 
   const organizationId = new Types.ObjectId(orgId);
   const projectObjectId = new Types.ObjectId(projectId);
@@ -326,6 +321,52 @@ export async function updateIssue(
 
   await issue.save();
 
+  if (oldStatus !== issue.status) {
+    await createActivity(
+      orgId,
+      projectId,
+      issueId,
+      userId,
+      ActivityAction.STATUS_CHANGED,
+      {
+        field: "status",
+        oldValue: oldStatus,
+        newValue: issue.status,
+      },
+    );
+  }
+  console.log("Old Priority:", oldPriority);
+console.log("New Priority:", issue.priority);
+if (oldPriority !== issue.priority) {
+  await createActivity(
+    orgId,
+    projectId,
+    issueId,
+    userId,
+    ActivityAction.PRIORITY_CHANGED,
+    {
+      field: "priority",
+      oldValue: oldPriority,
+      newValue: issue.priority,
+    },
+  );
+}
+const newAssignee = issue.assigneeId ? issue.assigneeId.toString() : null;
+if (oldAssignee !== newAssignee) {
+  await createActivity(
+    orgId,
+    projectId,
+    issueId,
+    userId,
+    ActivityAction.ASSIGNEE_CHANGED,
+    {
+      field: "assigneeId",
+      oldValue: oldAssignee,
+      newValue: newAssignee,
+    },
+  );
+}
+
   const populatedIssue = await Issue.findById(issue._id)
     .populate("assigneeId", "name email avatarUrl")
     .populate("reporterId", "name email avatarUrl")
@@ -338,7 +379,7 @@ export async function updateIssue(
 
   return populatedIssue;
 }
- 
+
 export async function deleteIssue(
   orgId: string,
   projectId: string,
